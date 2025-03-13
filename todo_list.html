@@ -1,0 +1,35 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Todo List</h1>
+  
+  <form method="get" action="">
+    <input type="text" name="search" placeholder="Search..." value="{{ request.GET.search }}">
+    <button type="submit">Search</button>
+  </form>
+
+  <ul>
+    {% for todo in todos %}
+      <li>
+        <a href="{% url 'todo:todo_detail' todo.pk %}">{{ todo.title }}</a>
+        {% if todo.user == request.user or request.user.is_superuser %}
+          <a href="{% url 'todo:todo_update' todo.pk %}">Edit</a>
+          <a href="{% url 'todo:todo_delete' todo.pk %}">Delete</a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+
+  {% if todos.has_previous %}
+    <a href="?page=1">&laquo; First</a>
+    <a href="?page={{ todos.previous_page_number }}">Previous</a>
+  {% endif %}
+
+  <span>Page {{ todos.number }} of {{ todos.paginator.num_pages }}</span>
+
+  {% if todos.has_next %}
+    <a href="?page={{ todos.next_page_number }}">Next</a>
+    <a href="?page={{ todos.paginator.num_pages }}">Last &raquo;</a>
+  {% endif %}
+{% endblock %}
+

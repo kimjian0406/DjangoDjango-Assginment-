@@ -1,0 +1,12 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>{{ todo.title }}</h1>
+  <p>{{ todo.description }}</p>
+  <p>Due Date: {{ todo.due_date }}</p>
+  
+  <a href="{% url 'todo:todo_update' todo.pk %}">Edit</a>
+  <a href="{% url 'todo:todo_delete' todo.pk %}">Delete</a>
+  <a href="{% url 'todo:todo_list' %}">Back to list</a>
+{% endblock %}
+
